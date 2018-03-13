@@ -74,6 +74,7 @@
 		gyro=new pano2vrGyro([pano_left,pano_right],"container_left");
 			gyro.setUseRoll(true); // Use roll of gyroscope if set
 		gyro.setAdaptiveVOffset(true);
+			gyro.setUseMoveTo(false); // Faster responce
 			// synchronize both panoramas
 		var lastPan,lastTilt,lastRoll,lastFov,lastLeft,lastRigth;
 		lastLeft=pano_left.getCurrentNode();
