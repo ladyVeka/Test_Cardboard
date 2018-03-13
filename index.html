@@ -68,9 +68,7 @@
 			// load the configuration
 		pano_left.readConfigUrl("pano.xml");
 		var nodeIds=pano_left.getNodeIds();
-			pano_right.disableSoundLoading(); // only play sounds from the left pano.
-		pano_right.setVolume("_main",0.0);
-		
+			pano_right.startNode=nodeIds[nodeIds.indexOf(pano_left.getCurrentNode())+1];
 			pano_right.readConfigUrl("pano.xml");
 		// add gyroscope controller
 		gyro=new pano2vrGyro([pano_left,pano_right],"container_left");
@@ -83,10 +81,12 @@
 		function syncPanos() {
 			try {
 				if(lastRight!==pano_right.getCurrentNode()){
-					pano_left.openNext("{" + pano_right.getCurrentNode() + "}", "$cur");
+					// Adjusted for stereo pairs
+					pano_left.openNext("{" + nodeIds[nodeIds.indexOf(pano_right.getCurrentNode())-1] + "}", "$cur");
 				}
 				else if(lastLeft!==pano_left.getCurrentNode()){
-					pano_right.openNext("{" + pano_left.getCurrentNode() + "}", "$cur");
+					// Adjusted for stereo pairs
+					pano_right.openNext("{" + nodeIds[nodeIds.indexOf(pano_left.getCurrentNode())+1] + "}", "$cur");
 				}
 				lastLeft=pano_left.getCurrentNode();
 				lastRight=pano_right.getCurrentNode();
